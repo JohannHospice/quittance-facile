@@ -1,0 +1,26 @@
+{
+  "name": "generate-receipt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "yarn build:function && yarn build:layer",
+    "build:function": "cd src/ && bestzip ../build/function.zip *",
+    "build:layer": "mkdir -p build/nodejs && cp -r node_modules package.json build/nodejs && cd build && bestzip layer.zip nodejs && rm -rf nodejs",
+    "deploy": "yarn deploy:function && yarn deploy:layer",
+    "deploy:function": "aws lambda update-function-code --function-name generate-receipt --region eu-west-3 --zip-file fileb://build/function.zip --profile nebulr",
+    "deploy:layer": "aws lambda publish-layer-version --layer-name generate-receipt-runtime --region eu-west-3 --zip-file fileb://build/layer.zip --profile nebulr"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/local-auth": "^1.0.1",
+    "googleapis": "^39.2.0",
+    "pdfkit": "^0.13.0"
+  },
+  "devDependencies": {
+    "bestzip": "^2.2.0",
+    "jest": "^27.4.7"
+  }
+}

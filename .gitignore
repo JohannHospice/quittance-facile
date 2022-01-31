@@ -1,0 +1,6 @@
+node_modules/
+build/
+credentials.json
+token.json
+package-lock.json
+yarn-error.log
