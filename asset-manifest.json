@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.073c9b0a.css",
-    "main.js": "/static/js/main.b7b20485.js",
-    "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
-    "index.html": "/index.html",
-    "main.073c9b0a.css.map": "/static/css/main.073c9b0a.css.map",
-    "main.b7b20485.js.map": "/static/js/main.b7b20485.js.map",
-    "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
+    "main.css": "/quittance-facile/static/css/main.073c9b0a.css",
+    "main.js": "/quittance-facile/static/js/main.66a005ec.js",
+    "static/js/787.cda612ba.chunk.js": "/quittance-facile/static/js/787.cda612ba.chunk.js",
+    "index.html": "/quittance-facile/index.html",
+    "main.073c9b0a.css.map": "/quittance-facile/static/css/main.073c9b0a.css.map",
+    "main.66a005ec.js.map": "/quittance-facile/static/js/main.66a005ec.js.map",
+    "787.cda612ba.chunk.js.map": "/quittance-facile/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.b7b20485.js"
+    "static/js/main.66a005ec.js"
   ]
 }
