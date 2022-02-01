@@ -1,40 +1,3 @@
-// -- Main
-
-async function generateReceipt(receipt) {
-  const response = await fetch(
-    'https://1x1tjr4ok8.execute-api.eu-west-3.amazonaws.com/default/generate-receipt',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': 'ovArZRQ3uG2jxydErB8C8991RRLwEvZt4DrWvVIj',
-      },
-      body: JSON.stringify(receipt),
-    }
-  );
-
-  return response.json();
-}
-
-await (async function main() {
-  let table = await base.getTable('📑 Quittances');
-
-  let record = await input.recordAsync('Selectionnez une quittance', table);
-
-  if (record) {
-    const receipt = await getReceipt(record.id);
-
-    const pdfUrl = await generateReceipt(receipt);
-    console.log(pdfUrl);
-
-    await table.updateRecordAsync(record, {
-      Url: pdfUrl,
-    });
-  } else {
-    output.text("Aucune quitttance n'a été sélectionnée");
-  }
-})();
-
 // -- Config
 const config = input.config({
   title: 'Génération de quittance',
@@ -78,6 +41,60 @@ const config = input.config({
     }),
   ],
 });
+
+// -- Main
+
+let table = await base.getTable('📑 Quittances');
+
+let record = await input.recordAsync(
+  'Quelle quittance souhaitez vous générer ?',
+  table
+);
+output.text('🔄 Récupération des données de location...');
+
+if (record) {
+  const receipt = await getReceipt(record.id);
+  output.text('🔄 Génération de la quittance en cours...');
+
+  try {
+    const pdfUrl = await generateReceipt(receipt);
+    output.text('✅ Génération terminée');
+
+    output.text(
+      "💁 Vous pouvez retrouver la quittance à l'adresse suivante : " + pdfUrl
+    );
+    await table.updateRecordAsync(record, {
+      Url: pdfUrl,
+    });
+    output.text('✅ Le champs Airtable de la quittance a été mis à jour');
+  } catch (error) {
+    output.text(
+      "❌ Une erreur s'es produite lors de la générationd de la quittance"
+    );
+    console.log(error);
+  }
+} else {
+  output.text("❌ Aucune quitttance n'a été sélectionnée");
+}
+
+// --
+
+async function generateReceipt(receipt) {
+  const response = await fetch(
+    'https://1x1tjr4ok8.execute-api.eu-west-3.amazonaws.com/default/generate-receipt',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': 'ovArZRQ3uG2jxydErB8C8991RRLwEvZt4DrWvVIj',
+      },
+      body: JSON.stringify(receipt),
+    }
+  );
+
+  return response.json();
+}
+
 // -- Fields
 
 async function getRecord(tableId, recordId) {
@@ -97,6 +114,7 @@ async function getLessor(id) {
     address: lessor.getCellValue('Adresse'),
     phone: lessor.getCellValue('Téléphone'),
     email: lessor.getCellValue('Email'),
+    signature: lessor.getCellValue('Signature'),
   };
 }
 
@@ -131,7 +149,6 @@ async function getLease(id) {
     rent: leaseRecord.getCellValue('Loyer'),
     charge: leaseRecord.getCellValue('Charge'),
     total: leaseRecord.getCellValue('Total'),
-    type: leaseRecord.getCellValue('Type de paiement'),
     rental: await getRental(locationId),
     tenant: await getTenant(tenantId),
   };
@@ -149,6 +166,6 @@ async function getReceipt(id) {
     at: record.getCellValueAsString('Fait à'),
     to: record.getCellValue("Jusqu'à"),
     from: record.getCellValue('A partir de'),
-    type: record.getCellValue('Type de paiement'),
+    type: record.getCellValueAsString('Type de paiement'),
   };
 }
