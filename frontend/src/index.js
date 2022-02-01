@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import theme from "./theme";
@@ -21,7 +21,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BrowserRouter>
+      <HashRouter>
         <UserProvider>
           <Routes>
             <Route path="/" element={<LoginRoute />}>
@@ -32,7 +32,7 @@ ReactDOM.render(
             </Route>
           </Routes>
         </UserProvider>
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
