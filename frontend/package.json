@@ -23,10 +23,32 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
     "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "rules": {
+      "react/prop-types": 0,
+      "react/no-unused-vars": 0,
+      "react/react-in-jsx-scope": 0
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "arrowParens": "always",
+    "semi": true,
+    "tabWidth": 2
   },
   "browserslist": {
     "production": [
